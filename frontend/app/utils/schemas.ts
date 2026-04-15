@@ -1,9 +1,7 @@
 import { z } from "zod";
 import { ALERGENOS, SEVERIDADES } from "~/constants/alergias";
-import { CIUDADES_LABELS, CIUDADES_VALUES } from "~/constants/ciudades";
+import { CIUDADES_VALUES } from "~/constants/ciudades";
 
-// Register Form
-// Esquema Paso 1
 export const paso1Schema = z.object({
   nombre: z.string().min(2, "El nombre es demasiado corto"),
   apellidos: z.string().min(2, "Los apellidos son obligatorios"),
@@ -17,16 +15,17 @@ export const paso1Schema = z.object({
 
         const age = today.getFullYear() - birth.getFullYear();
 
-        return age >= 0 && age <= 120;
+        return age >= 2 && age <= 120;
       },
       {
         message: "Fecha de nacimiento inválida",
       },
     ),
-  ciudad: z.enum(CIUDADES_VALUES),
+  ciudad: z.enum(CIUDADES_VALUES, {
+    error: "Provincia inválida, por favor selecciona una provincia de la lista",
+  }),
 });
 
-// Esquema Paso 2
 export const paso2Schema = z.object({
   alergias: z
     .array(
@@ -39,7 +38,6 @@ export const paso2Schema = z.object({
   medicacion: z.string().optional(),
 });
 
-// Esquema Paso 3
 export const paso3Schema = z
   .object({
     email: z.string().email("Email inválido"),
@@ -61,7 +59,6 @@ export const paso3Schema = z
     path: ["password_confirmation"],
   });
 
-// Esquema Completo (para el servidor)
 export const registroTotalSchema = z.intersection(
   z.intersection(paso1Schema, paso2Schema),
   paso3Schema,

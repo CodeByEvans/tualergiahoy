@@ -18,9 +18,6 @@ export const useRegistroForm = () => {
     () => ({}),
   );
 
-  const showPassword = useState("showPassword", () => false);
-  const showConfirmPassword = useState("showConfirmPassword", () => false);
-
   const form = useState<RegistroForm>("registro_form_data", () => ({
     nombre: "",
     apellidos: "",
@@ -88,11 +85,6 @@ export const useRegistroForm = () => {
     );
   };
 
-  const onPhoneInput = (value: string) => {
-    const formatted = formatPhoneInput(value);
-    form.value.telefono = formatted;
-  };
-
   const submit = async () => {
     if (isSubmitting.value) return;
 
@@ -155,14 +147,11 @@ export const useRegistroForm = () => {
     pasoActual,
     totalPasos,
     errors,
-    showPassword,
-    showConfirmPassword,
     clearError,
     siguientePaso,
     pasoAnterior,
     toggleAlergia,
     setSeveridad,
-    onPhoneInput,
     submit,
   };
 };

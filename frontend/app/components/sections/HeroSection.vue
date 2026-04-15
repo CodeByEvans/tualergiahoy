@@ -55,13 +55,6 @@
           >
             Empieza gratis
           </NuxtLink>
-
-          <NuxtLink
-            to="/info"
-            class="bg-white/10 text-white px-11 py-4 rounded-xl text-lg font-semibold no-underline backdrop-blur-sm border border-white/30 transition-all duration-300 hover:bg-white/20"
-          >
-            Saber más
-          </NuxtLink>
         </div>
       </div>
     </div>
