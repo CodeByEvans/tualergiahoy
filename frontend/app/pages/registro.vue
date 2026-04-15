@@ -59,19 +59,6 @@ const pasosVisuales = [
   },
 ];
 
-const getStatusClass = (minProgress: number) => {
-  if (
-    serverProgress.value >=
-    pasosVisuales.find((p) => p.minProgress === minProgress)!.nextProgress
-  ) {
-    return "border-emerald-500 bg-emerald-50";
-  }
-  if (serverProgress.value >= minProgress) {
-    return "border-emerald-500 bg-white";
-  }
-  return "border-slate-200 bg-white";
-};
-
 watch(
   () => [form.value.password, form.value.password_confirmation],
   () => {
@@ -129,7 +116,13 @@ const handleFormAction = () => {
           >
             <div
               class="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full border-2 transition-all duration-500"
-              :class="getStatusClass(step.minProgress)"
+              :class="[
+                serverProgress >= step.nextProgress
+                  ? 'border-emerald-500 bg-emerald-50'
+                  : serverProgress >= step.minProgress
+                    ? 'border-emerald-500 bg-white'
+                    : 'border-slate-200 bg-white',
+              ]"
             >
               <UIcon
                 v-if="serverProgress > step.nextProgress"
