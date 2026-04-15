@@ -1,0 +1,27 @@
+{
+  "name": "frontend",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@nuxt/ui": "^4.6.1",
+    "@vueuse/core": "^14.2.1",
+    "libphonenumber-js": "^1.12.41",
+    "nuxt": "^4.4.2",
+    "tailwindcss": "^4.2.2",
+    "vue": "^3.5.32",
+    "vue-router": "^5.0.4",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@iconify-json/heroicons": "^1.2.3",
+    "@iconify-json/lucide": "^1.2.102",
+    "@types/node": "^25.6.0"
+  }
+}

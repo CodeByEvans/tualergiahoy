@@ -1,0 +1,34 @@
+# --- OS Metadata ---
+.DS_Store
+Thumbs.db
+
+# --- Entorno y Secretos ---
+.env
+.env.*
+!.env.example
+.history/
+
+# --- Python / Django ---
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+db.sqlite3
+# Archivos de Google/Auth
+backend/credentials.json
+backend/oauth_credentials.json
+backend/token.pickle
+*.pickle
+
+# --- Node / Nuxt (Rutas relativas a la raíz) ---
+**/node_modules/
+**/dist/
+**/.nuxt/
+**/.output/
+**/.data/
+**/.nitro/
+**/.cache/
+
+# --- Logs ---
+*.log
+logs/
