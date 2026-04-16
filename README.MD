@@ -8,7 +8,7 @@ Aplicación web full-stack que automatiza el flujo de registro de usuarios alér
 
 | Capa             | Tecnología                                                   |
 | ---------------- | ------------------------------------------------------------ |
-| Frontend         | Nuxt 3 + Vue 3 (Composition API) + TypeScript                |
+| Frontend         | Nuxt 4 + Vue 3 (Composition API) + TypeScript                |
 | Backend          | Django 5 + Django REST Framework                             |
 | Base de datos    | SQLite (via Django ORM)                                      |
 | IA generativa    | Google Gemini Flash (via `google-genai`)                     |
@@ -221,5 +221,7 @@ pytest registro/tests/ -v
 - El campo `alergias` se almacena como `JSONField` en la base de datos, lo que permite estructuras flexibles (`nombre` + `severidad`) sin esquema rígido.
 - El modelo `Usuario` extiende `AbstractUser` eliminando `username` y usando `email` como identificador único.
 - Los registros usan `UUIDField` como primary key para facilitar la integración con sistemas externos (Sheets, Docs) sin exponer IDs secuenciales.
-- Se ha buscado cumplir principios SOLID, permitiendo una arquitectura escalable, mantenible y legible.
-- Se han instalado librerías adicionales, para poder ofrecer una mejor UI y experiencia de usuario.
+- La arquitectura sigue principios SOLID:
+  - Cada servicio tiene una única responsabilidad (SRP)
+  - Se depende de interfaces (`IService`) en lugar de implementaciones concretas (DIP)
+  - Los servicios son intercambiables y fácilmente testeables mediante inyección de dependencias (IoC)
