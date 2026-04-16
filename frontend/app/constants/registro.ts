@@ -96,3 +96,42 @@ export const STEPS_CONFIG = {
     fields: ACCOUNT_FIELDS,
   },
 };
+
+export const PASOS_CARGA_IA = [
+  {
+    id: 1,
+    label: "Creación de perfil",
+    minProgress: 10,
+    nextProgress: 25,
+  },
+  {
+    id: 2,
+    label: "Geolocalización y entorno",
+    minProgress: 25,
+    nextProgress: 40,
+  },
+  {
+    id: 3,
+    label: "Análisis de niveles de polen",
+    minProgress: 40,
+    nextProgress: 75,
+  },
+  {
+    id: 4,
+    label: "Generación de informe IA",
+    minProgress: 75,
+    nextProgress: 85,
+  },
+  {
+    id: 5,
+    label: "Personalización de documento PDF",
+    minProgress: 85,
+    nextProgress: 95,
+  },
+  {
+    id: 6,
+    label: "Envío de documentación por email",
+    minProgress: 95,
+    nextProgress: 100,
+  },
+];

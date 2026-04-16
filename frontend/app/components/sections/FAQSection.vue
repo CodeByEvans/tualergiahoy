@@ -60,35 +60,39 @@ const items = [
       </div>
 
       <div class="faq-container">
-        <UAccordion :items="items" multiple>
-          <template #default="{ item, open }">
-            <UButton
-              color="neutral"
-              variant="ghost"
-              class="w-full flex justify-between items-center text-left py-5 px-6"
-              :class="[
-                open ? 'text-emerald-700 bg-emerald-50/30' : 'text-slate-900',
-              ]"
-            >
-              <span class="text-lg font-bold tracking-tight">{{
-                item.label
-              }}</span>
-              <template #trailing>
-                <UIcon
-                  :name="open ? 'i-heroicons-minus' : 'i-heroicons-plus'"
-                  class="w-5 h-5 transition-transform duration-200"
-                  :class="[open ? 'text-emerald-600' : 'text-slate-400']"
-                />
-              </template>
-            </UButton>
-          </template>
+        <ClientOnly>
+          <UAccordion :items="items" multiple>
+            <template #default="{ item, open }">
+              <UButton
+                color="neutral"
+                variant="ghost"
+                class="w-full flex justify-between items-center text-left py-5 px-6"
+                :class="[
+                  open ? 'text-emerald-700 bg-emerald-50/30' : 'text-slate-900',
+                ]"
+              >
+                <span class="text-lg font-bold tracking-tight">{{
+                  item.label
+                }}</span>
+                <template #trailing>
+                  <UIcon
+                    :name="open ? 'i-heroicons-minus' : 'i-heroicons-plus'"
+                    class="w-5 h-5 transition-transform duration-200"
+                    :class="[open ? 'text-emerald-600' : 'text-slate-400']"
+                  />
+                </template>
+              </UButton>
+            </template>
 
-          <template #body="{ item }">
-            <div class="px-6 pb-6 pt-2 text-slate-500 text-lg leading-relaxed">
-              {{ item.content }}
-            </div>
-          </template>
-        </UAccordion>
+            <template #body="{ item }">
+              <div
+                class="px-6 pb-6 pt-2 text-slate-500 text-lg leading-relaxed"
+              >
+                {{ item.content }}
+              </div>
+            </template>
+          </UAccordion>
+        </ClientOnly>
       </div>
 
       <div
@@ -121,7 +125,6 @@ const items = [
   background-color: #ffffff;
 }
 
-/* Forzar que el acordeón no tenga el estilo por defecto de "lista" */
 :deep(.u-accordion) {
   --tw-ring-color: transparent !important;
 }

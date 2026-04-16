@@ -35,7 +35,6 @@ export const AuthApiService = {
 
       const chunk = decoder.decode(value);
 
-      // SSE puede enviar varios mensajes en un solo "chunk"
       const lines = chunk.split("\n\n");
 
       for (const line of lines) {

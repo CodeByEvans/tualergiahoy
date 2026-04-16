@@ -10,7 +10,7 @@ defineEmits(["next", "prev"]);
 </script>
 
 <template>
-  <div class="max-w-lg w-full mx-auto py-12 px-4">
+  <div class="max-w-lg w-full mx-auto px-4">
     <div class="mb-8">
       <div class="flex justify-between text-sm text-slate-500 mb-2">
         <span class="font-bold"

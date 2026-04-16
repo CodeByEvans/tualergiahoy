@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from "@nuxt/ui";
 import { useIntersectionObserver } from "@vueuse/core";
+import Logo from "../atoms/Logo.vue";
 
 const activeSection = ref("inicio");
 

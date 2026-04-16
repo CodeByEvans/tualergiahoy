@@ -33,6 +33,28 @@ export const useRegistroForm = () => {
     como_nos_conocio: "",
   }));
 
+  watch(
+    () => [form.value.password, form.value.password_confirmation],
+    () => {
+      const pass = form.value.password;
+      const confirm = form.value.password_confirmation;
+
+      if (confirm.length < pass.length) {
+        clearError("password_confirmation");
+        return;
+      }
+
+      if (pass !== confirm) {
+        errors.value.password_confirmation = "Las contraseñas no coinciden";
+        return;
+      }
+
+      if (form.value.password_confirmation === form.value.password) {
+        clearError("password_confirmation");
+      }
+    },
+  );
+
   const clearError = (path: string) => {
     delete errors.value[path];
   };

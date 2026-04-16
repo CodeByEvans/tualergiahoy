@@ -3,6 +3,10 @@ import BeneficiosSection from "~/components/sections/BeneficiosSection.vue";
 import ComoFuncionaSection from "~/components/sections/ComoFuncionaSection.vue";
 import FAQSection from "~/components/sections/FAQSection.vue";
 import HeroSection from "~/components/sections/HeroSection.vue";
+
+useHead({
+  title: "Tualergia Hoy",
+});
 </script>
 
 <template>
