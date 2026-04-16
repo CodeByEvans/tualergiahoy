@@ -56,6 +56,14 @@ const items = computed<NavigationMenuItem[]>(() => [
 
     <UNavigationMenu :items="items" />
 
-    <template #right> </template>
+    <template #right>
+      <UButton
+        class="px-4 py-2 rounded-full hover:scale-110 transition-transform duration-300"
+        to="/registro"
+        label="Empezar"
+        color="primary"
+        variant="solid"
+      />
+    </template>
   </UHeader>
 </template>

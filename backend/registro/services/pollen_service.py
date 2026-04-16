@@ -29,7 +29,7 @@ class PollenService(IPollenService):
             return PollenDTO(
                 tipo_polen='Sin datos',
                 estado='Sin datos',
-                datos_detalle='No hay alérgenos medibles por Open-Meteo para tus alergias registradas.',
+                datos_detalle='No hay alérgenos medibles en tu ciudad.',
             )
 
         response = requests.get(
@@ -58,9 +58,6 @@ class PollenService(IPollenService):
             serie = data['hourly'].get(var, [])
             valor = serie[idx] if idx < len(serie) else 0.0
             valores_actuales[var] = valor if valor is not None else 0.0
-
-        if not valores_actuales:
-            return PollenDTO(tipo_polen='N/A', estado='Sin datos', datos_detalle='No hay valores disponibles.')
 
         principal_var = max(valores_actuales, key=valores_actuales.get)
         principal_valor = valores_actuales[principal_var]
