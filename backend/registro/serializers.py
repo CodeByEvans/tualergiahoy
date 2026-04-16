@@ -37,7 +37,7 @@ class RegistroSerializer(serializers.ModelSerializer):
         try:
             number = phonenumbers.parse(value, 'ES')
             if not phonenumbers.is_valid_number(number):
-                raise ValueError
+                raise serializers.ValidationError('El formato de teléfono no es válido.')
             return phonenumbers.format_number(number, phonenumbers.PhoneNumberFormat.E164)
         
         except phonenumbers.NumberParseException:
