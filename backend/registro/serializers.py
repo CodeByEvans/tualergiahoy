@@ -47,6 +47,9 @@ class RegistroSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('El formato de teléfono no es válido.')
 
     def validate_alergias(self, value):
+        if not isinstance(value, list):
+            raise serializers.ValidationError('Alergias debe ser una lista.')
+        
         nombres_alergias = [alergia['nombre'] for alergia in value]
 
         invalidas = [n for n in nombres_alergias if n not in ALERGENOS_VALIDOS]

@@ -3,6 +3,7 @@ from django.conf import settings
 
 from ..dtos import CoordenadasDTO
 from ..interfaces import IGeocodingService
+from ..exceptions import GeocodingServiceUnavailableError
 
 
 
@@ -19,7 +20,7 @@ class GeocodingService(IGeocodingService):
         resultados = response.json().get('results')
 
         if not resultados:
-            raise ValueError(f'No se encontraron coordenadas para la ciudad: {ciudad}')
+            raise GeocodingServiceUnavailableError(f'No se encontraron coordenadas para la ciudad: {ciudad}')
 
         resultado = resultados[0]
         return CoordenadasDTO(

@@ -59,7 +59,7 @@ El texto debe:
 REGLAS DE SEGURIDAD MÉDICA:
 - TIenes prohibido recomendar medicamentos específicos o cambiar dosis.
 - Si el usuario ya toma medicación, limítate a recordarle que sea constante con su tratamiento actual.
-- Si el usuario NO medicación, y su riesgo es alto, sugiérele consultar con un especialista, pero nunca nombres fármacos.
+- Si el usuario NO toma medicación, y su riesgo es alto, sugiérele consultar con un especialista, pero nunca nombres fármacos.
 
 INSTRUCCIONES ADICIONALES:
 1. Si el usuario tiene alguna alergia 'Severa', esas alergias deben tener prioridad en el informe. 

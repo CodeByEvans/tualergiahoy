@@ -2,7 +2,7 @@ from datetime import datetime
 import json
 import time
 
-from ..exceptions import AIServiceUnavailableError
+from ..exceptions import AIServiceUnavailableError, SheetsServiceUnavailableError, GeocodingServiceUnavailableError
 
 from .google_auth_service import GoogleAuthService
 from ..interfaces import IGeocodingService, IPollenService, ISheetsService, IAIService, IDocsService, IEmailService
@@ -49,9 +49,14 @@ class RegistroOrchestrator:
 
     def ejecutar(self, registro: Registro):
         try: 
-            # 1. Geocodificar ciudad
-            yield self._formatear_ev(f"Localizando {registro.ciudad}...", 25)
-            coordenadas = self._geocoding.obtener_coordenadas(registro.ciudad)
+            try:
+                # 1. Geocodificar ciudad
+                yield self._formatear_ev(f"Localizando {registro.ciudad}...", 25)
+                coordenadas = self._geocoding.obtener_coordenadas(registro.ciudad)
+            except GeocodingServiceUnavailableError as e:
+                logger.exception('Geocoding service unavailable', extra={'ciudad': registro.ciudad})
+                yield self._formatear_ev('Geocoding service unavailable', 100)
+                return
     
             # 2. Datos de polen
             yield self._formatear_ev("Obteniendo datos de polen...", 40)
@@ -81,7 +86,7 @@ class RegistroOrchestrator:
                     'como_nos_conocio': registro.como_nos_conocio,
                     'fecha_registro': registro.created_at.strftime('%d/%m/%Y %H:%M'),
                 })
-            except Exception as e:
+            except SheetsServiceUnavailableError as e:
                 logger.exception(
                     "Error al insertar registro en Google Sheets",
                     extra={
@@ -89,6 +94,7 @@ class RegistroOrchestrator:
                         "usuario_email": registro.usuario.email
                     }
                 )
+
     
             # 4. Previsión IA
             try:
