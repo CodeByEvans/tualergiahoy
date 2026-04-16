@@ -17,21 +17,21 @@ class SheetsService(ISheetsService):
         self._client = gspread.authorize(creds)
         self._sheet = self._client.open_by_key(settings.GOOGLE_SHEETS_ID).sheet1
 
-def insertar_registro(self, datos: SheetsRegistroDTO) -> None:
-    fila = [
-        str(datos.id),
-        datos.nombre,
-        datos.apellidos,
-        datos.fecha_nacimiento,
-        datos.ciudad,
-        datos.email,
-        datos.telefono,
-        datos.alergias,
-        datos.medicacion,
-        'Sí' if datos.acepta_notificaciones else 'No',
-        datos.nivel_riesgo,
-        datos.como_nos_conocio,
-        datos.fecha_registro,
-    ]
-
-    self._sheet.append_row(fila, value_input_option='USER_ENTERED')
+    def insertar_registro(self, datos: SheetsRegistroDTO) -> None:
+        fila = [
+            str(datos.id),
+            datos.nombre,
+            datos.apellidos,
+            datos.fecha_nacimiento,
+            datos.ciudad,
+            datos.email,
+            datos.telefono,
+            datos.alergias,
+            datos.medicacion,
+            'Sí' if datos.acepta_notificaciones else 'No',
+            datos.nivel_riesgo,
+            datos.como_nos_conocio,
+            datos.fecha_registro,
+        ]
+    
+        self._sheet.append_row(fila, value_input_option='USER_ENTERED')

@@ -2,6 +2,8 @@ from datetime import datetime
 import json
 import time
 
+from registro.dtos.sheets_dto import SheetsRegistroDTO
+
 from ..exceptions import AIServiceUnavailableError, SheetsServiceUnavailableError, GeocodingServiceUnavailableError
 
 from .google_auth_service import GoogleAuthService
@@ -71,21 +73,21 @@ class RegistroOrchestrator:
                     f"{a['nombre']} ({a['severidad']})"
                     for a in registro.alergias
                 )   
-                self._sheets.insertar_registro({
-                    'id': registro.id,
-                    'nombre': registro.usuario.first_name,
-                    'apellidos': registro.usuario.last_name,
-                    'fecha_nacimiento': str(registro.fecha_nacimiento),
-                    'ciudad': registro.get_ciudad_display(),
-                    'email': registro.usuario.email,
-                    'telefono': registro.telefono,
-                    'alergias': alergias_texto,
-                    'medicacion': registro.medicacion,
-                    'acepta_notificaciones': registro.acepta_notificaciones,
-                    'nivel_riesgo': datos_polen.estado,
-                    'como_nos_conocio': registro.como_nos_conocio,
-                    'fecha_registro': registro.created_at.strftime('%d/%m/%Y %H:%M'),
-                })
+                self._sheets.insertar_registro(SheetsRegistroDTO(
+                    id=registro.id,
+                    nombre=registro.usuario.first_name,
+                    apellidos=registro.usuario.last_name,
+                    fecha_nacimiento=str(registro.fecha_nacimiento),
+                    ciudad=registro.get_ciudad_display(),
+                    email=registro.usuario.email,
+                    telefono=registro.telefono,
+                    alergias=alergias_texto,
+                    medicacion=registro.medicacion,
+                    acepta_notificaciones=registro.acepta_notificaciones,
+                    nivel_riesgo=datos_polen.estado,
+                    como_nos_conocio=registro.como_nos_conocio,
+                    fecha_registro=registro.created_at.strftime('%d/%m/%Y %H:%M'),
+                ))
             except SheetsServiceUnavailableError as e:
                 logger.exception(
                     "Error al insertar registro en Google Sheets",

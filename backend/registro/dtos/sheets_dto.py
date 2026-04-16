@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 @dataclass
 class SheetsRegistroDTO:
-    id: int
+    id: str
     nombre: str
     apellidos: str
     fecha_nacimiento: str
