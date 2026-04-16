@@ -132,7 +132,6 @@ export const useRegistroForm = () => {
       });
       isSuccess.value = true;
     } catch (error: any) {
-      isSubmitting.value = false;
       if (error instanceof ZodError) {
         error.issues.forEach((issue) => {
           const field = issue.path[0] as keyof typeof errors.value;

@@ -2,7 +2,7 @@ from google import genai
 from datetime import datetime
 from django.conf import settings
 
-from ..exceptions import AIServiceUnavaibleError
+from ..exceptions import AIServiceUnavailableError
 
 from ..dtos import PollenDTO
 from ..interfaces import IAIService
@@ -77,4 +77,4 @@ Escribe directamente el texto sin saludos previos ni introducción."""
             )
             return mensaje.text or "Sin respuesta"
         except Exception as e:
-            raise AIServiceUnavaibleError(str(e))
+            raise AIServiceUnavailableError(str(e))

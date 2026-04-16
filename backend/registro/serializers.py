@@ -1,8 +1,10 @@
-from .constants import ALERGENO_MAP
+from django.contrib.auth.hashers import make_password
+from django.db import transaction
 import phonenumbers
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
-from .models import Registro, SeveridadChoices, ComoNosConocioChoices
+from .models import Registro, Usuario, SeveridadChoices, ComoNosConocioChoices
+from .constants import ALERGENO_MAP, PROVINCIA_CHOICES
 
 ALERGENOS_VALIDOS = set(ALERGENO_MAP.keys())
 
@@ -11,16 +13,17 @@ class AlergiaDetalleSerializer(serializers.Serializer):
     severidad = serializers.ChoiceField(choices=SeveridadChoices.choices)
 
 class RegistroSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, min_length=8)
-    alergias = AlergiaDetalleSerializer(many=True)
+    nombre = serializers.CharField(min_length=2, max_length=50)
+    apellidos = serializers.CharField(min_length=2, max_length=50)
     email = serializers.EmailField(
         validators=[
             UniqueValidator(
-                queryset=Registro.objects.all(),
+                queryset=Usuario.objects.all(),
                 message='Este correo ya está registrado',
             )
         ]
     )
+    password = serializers.CharField(write_only=True, min_length=8)
 
     class Meta:
         model = Registro
@@ -51,3 +54,25 @@ class RegistroSerializer(serializers.ModelSerializer):
         if invalidas:
             raise serializers.ValidationError(f'Alérgenos no reconocidos: {invalidas}')
         return value
+    
+    @transaction.atomic
+    def create(self, validated_data):
+        usuario = Usuario.objects.create(
+            email=validated_data['email'],
+            first_name=validated_data['nombre'],
+            last_name=validated_data['apellidos'],
+            password=make_password(validated_data['password']),
+        )
+
+        registro = Registro.objects.create(
+            usuario=usuario,
+            fecha_nacimiento=validated_data['fecha_nacimiento'],
+            ciudad=validated_data['ciudad'],
+            telefono=validated_data.get('telefono'),
+            alergias=validated_data['alergias'],
+            medicacion=validated_data.get('medicacion', ''),
+            acepta_notificaciones=validated_data.get('acepta_notificaciones', False),
+            como_nos_conocio=validated_data['como_nos_conocio'],
+        )
+
+        return registro

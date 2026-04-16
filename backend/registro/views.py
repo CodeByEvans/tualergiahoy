@@ -21,15 +21,16 @@ class RegistroView(APIView):
         serializer = RegistroSerializer(data=request.data)
 
         if not serializer.is_valid():
-            print(serializer.errors)
+            logger.error(serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
 
         try:
+            registro = serializer.save()
             orchestrator = RegistroOrchestrator()
-            stream = orchestrator.ejecutar(serializer.validated_data)
+            stream = orchestrator.ejecutar(registro)
 
-            logger.info(f"Registro exitoso: {str(stream)}")
+            logger.info(f"Registro iniciado para usuario {registro.usuario.email}")
             
             response = StreamingHttpResponse(
                 stream,

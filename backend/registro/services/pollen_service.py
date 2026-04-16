@@ -45,21 +45,32 @@ class PollenService(IPollenService):
         response.raise_for_status()
         data = response.json()
 
-        hora_actual = datetime.now().hour
-        valores = {}
+        ahora_iso = datetime.now().strftime('%Y-%m-%dT%H:00')
+        tiempos = data.get('hourly', {}).get('time', [])
+        
+        try:
+            idx = tiempos.index(ahora_iso)
+        except ValueError:
+            idx = 0
+
+        valores_actuales = {}
         for var in variables:
             serie = data['hourly'].get(var, [])
-            valores[var] = serie[hora_actual] if hora_actual < len(serie) else 0.0
+            valor = serie[idx] if idx < len(serie) else 0.0
+            valores_actuales[var] = valor if valor is not None else 0.0
 
-        principal_var = max(valores, key=valores.get)
-        principal_valor = valores[principal_var]
+        if not valores_actuales:
+            return PollenDTO(tipo_polen='N/A', estado='Sin datos', datos_detalle='No hay valores disponibles.')
+
+        principal_var = max(valores_actuales, key=valores_actuales.get)
+        principal_valor = valores_actuales[principal_var]
         principal_nombre = next(k for k, v in ALERGENO_MAP.items() if v == principal_var)
 
         estado = _nivel_riesgo(principal_valor)
 
         detalle_lineas = [
             f'- {next(k for k, v in ALERGENO_MAP.items() if v == var)}: {round(valor, 1)} gr/m³ ({_nivel_riesgo(valor)})'
-            for var, valor in valores.items()
+            for var, valor in valores_actuales.items()
         ]
 
         return PollenDTO(

@@ -1,2 +1,2 @@
-class AIServiceUnavaibleError(Exception):
+class AIServiceUnavailableError(Exception):
     pass
